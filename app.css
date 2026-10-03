@@ -1,0 +1,790 @@
+﻿/**
+ * Hand-written, no framework and no external font: the whole app is a few
+ * grids, some tables and four SVG plots.
+ *
+ * Colours come from custom properties, with a dark scheme for anyone who has
+ * asked their system for one.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --page: #f4f4f2;
+  --surface: #ffffff;
+  --ink: #1b1b19;
+  --ink-soft: #5d5d57;
+  --line: #d9d9d3;
+  --accent: #1d5c8f;
+  --accent-ink: #ffffff;
+  --danger: #9c2b18;
+  --plot-grid: #c9c9c1;
+  --plot-ink: #3a3a36;
+  --good: #2f6b3a;
+  --plot-clear: #1a4fd6;
+  --plot-blocked: #d01b12;
+  --plot-reach: #d0342c;
+  --plot-soi: #a97c00;
+
+  --gap: 1rem;
+  --radius: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #1a1a19;
+    --surface: #242423;
+    --ink: #e8e8e2;
+    --ink-soft: #a3a39b;
+    --line: #3b3b38;
+    --accent: #74aede;
+    --accent-ink: #10222f;
+    --danger: #e08a76;
+    --plot-grid: #45453f;
+    --plot-ink: #cfcfc7;
+    --good: #7cc48a;
+    --plot-clear: #7ea2ff;
+    --plot-blocked: #ff6f63;
+    --plot-reach: #ff6f63;
+    --plot-soi: #e0b03a;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 var(--gap) 3rem;
+  background: var(--page);
+  color: var(--ink);
+  font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.masthead {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.tagline {
+  margin: 0.25rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+/* Tabs -------------------------------------------------------------------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  max-width: 60rem;
+  margin: 1rem auto 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs button {
+  padding: 0.5rem 0.85rem;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tabs button:hover {
+  color: var(--ink);
+}
+
+.tabs button[aria-selected="true"] {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.panels {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.panel {
+  padding: 1.25rem 0;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.panel:focus {
+  outline: none;
+}
+
+.panel > h2:first-child,
+.panel > h3:first-child {
+  margin-top: 0;
+}
+
+/* Layout within a panel --------------------------------------------------- */
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--gap);
+  align-items: start;
+}
+
+.stack {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.card {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.card > h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+/* Forms ------------------------------------------------------------------- */
+
+.field {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.field > label {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.field-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.field-row > label {
+  flex: 1 1 auto;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.field-row output {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+input,
+select {
+  min-width: 0;
+  padding: 0.35rem 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+input[type="number"] {
+  width: 7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+input[type="range"] {
+  flex: 1 1 auto;
+  padding: 0;
+  accent-color: var(--accent);
+}
+
+input[type="color"] {
+  width: 3rem;
+  height: 2rem;
+  padding: 0.1rem;
+}
+
+button {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:disabled {
+  color: var(--ink-soft);
+  cursor: not-allowed;
+}
+
+button.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+button.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.actions .file-input {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.actions .file-input input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.actions .file-input::before {
+  content: attr(data-label);
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font: inherit;
+  white-space: nowrap;
+}
+
+/*
+ * The data input is a stack of fieldsets down a narrow column, each one a
+ * group of related figures with a heading rather than a boxed border, so a
+ * long column of numbers stays readable.
+ */
+.sidebar {
+  min-width: 0;
+}
+
+fieldset.input {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.9rem 0 1rem;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+fieldset.input legend {
+  padding: 0;
+  font-weight: 600;
+}
+
+fieldset.input h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* One antenna: which it is, its details, and how many of it there are. */
+.antenna-row {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.6rem 0;
+  border-top: 1px dashed var(--line);
+}
+
+.antenna-controls {
+  display: flex;
+  align-items: end;
+  gap: 0.5rem;
+}
+
+.antenna-controls .field {
+  flex: 1;
+}
+
+/*
+ * The folding details stand in for the original's folding panels: the figures
+ * are there for anyone who wants them and out of the way for anyone who does
+ * not.
+ */
+details.fold {
+  border-left: 2px solid var(--line);
+  padding-left: 0.6rem;
+}
+
+details.fold summary {
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+table.data.detail {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+table.data.detail td:first-child {
+  color: var(--ink-soft);
+}
+
+table.data.detail td.numeric {
+  text-align: right;
+}
+
+button.primary,
+button[aria-pressed="true"],
+.antenna-controls button[class="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Tables ------------------------------------------------------------------ */
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+table.data caption {
+  padding-bottom: 0.4rem;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+table.data th,
+table.data td {
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+table.data th {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+table.data td.numeric,
+table.data th.numeric {
+  text-align: right;
+}
+
+table.data tr.selected td {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+table.data input[type="number"] {
+  width: 5rem;
+}
+
+/* Sections ---------------------------------------------------------------- */
+
+details {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+details + details {
+  margin-top: 0.6rem;
+}
+
+summary {
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+details > .details-body {
+  padding: 0 0.9rem 0.9rem;
+}
+
+.hint {
+  margin: 0.2rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.empty {
+  margin: 0.4rem 0;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* Dialog ------------------------------------------------------------------ */
+
+dialog {
+  max-width: 22rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+dialog p {
+  margin-top: 0;
+}
+
+/* Plots ------------------------------------------------------------------- */
+
+/*
+ * The planner is the data input in a narrow column on the right and the
+ * figures on the left, the entire view across the top of those and the three
+ * small views under it in two columns. Everything is sized in fractions so it
+ * works from a phone up to a wide desktop.
+ */
+.planner {
+  display: grid;
+  gap: calc(var(--gap) * 1.5);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+.figures {
+  display: grid;
+  gap: calc(var(--gap) * 1.5);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  min-width: 0;
+}
+
+.figure figcaption {
+  font-weight: 600;
+}
+
+@media (min-width: 34rem) {
+  .figures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .figure.wide {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 62rem) {
+  .planner {
+    grid-template-columns: minmax(0, 3fr) minmax(19rem, 1fr);
+  }
+}
+
+/*
+ * The plots are read against the game's own colours: what each satellite can
+ * reach is red, a clear hop between neighbours is blue and a blocked one is
+ * bright red, stable coverage is green and the sphere of influence is yellow.
+ * The two yellows are deepened and the two blues darkened from the pure
+ * colours of the first version so that they still read on a white page.
+ */
+.plot {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--plot-ink);
+}
+
+/* A figure is as wide as its column and exactly as tall as it is wide. */
+.plot {
+  aspect-ratio: 1 / 1;
+}
+
+.plot .orbit {
+  fill: none;
+  stroke: var(--ink);
+}
+
+.plot .label {
+  fill: currentColor;
+  font-size: 11px;
+}
+
+.plot .label-muted {
+  fill: var(--ink-soft);
+  font-size: 10px;
+}
+
+.plot .satellite {
+  fill: var(--ink);
+  stroke: var(--surface);
+  stroke-width: 1.5;
+  paint-order: stroke fill;
+}
+
+.plot .satellite-mam {
+  fill: var(--good);
+}
+
+.plot .reach {
+  fill: var(--plot-reach);
+  fill-opacity: 0.05;
+  stroke: none;
+}
+
+.plot .line {
+  stroke: var(--ink);
+  stroke-width: 0.6;
+  opacity: 0.55;
+}
+
+.plot .line-clear {
+  stroke: var(--plot-clear);
+  stroke-width: 1;
+  fill: none;
+}
+
+.plot .line-blocked {
+  stroke: var(--plot-blocked);
+  stroke-width: 1;
+  fill: none;
+}
+
+.plot .shadow {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 6;
+  stroke-opacity: 0.35;
+}
+
+.plot .ring,
+.plot .stable {
+  fill: none;
+  stroke: var(--good);
+  stroke-width: 1;
+}
+
+.plot .ring-off {
+  fill: none;
+  stroke: var(--plot-grid);
+  stroke-width: 1.2;
+}
+
+.plot .soi {
+  fill: none;
+  stroke: var(--plot-soi);
+  stroke-width: 2;
+  stroke-dasharray: 8 4;
+}
+
+.plot .body {
+  stroke: var(--ink);
+  stroke-width: 0.8;
+}
+
+.plot .body-label {
+  fill: var(--ink);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/*
+ * The entire view is 800 units across, so its labels are sized in units
+ * rather than in pixels, and they are outlined in the page colour so that
+ * they stay readable where they cross a reach circle or an orbit.
+ */
+.plot.entire {
+  stroke-width: 1;
+  text-anchor: middle;
+}
+
+.plot .plot-label {
+  fill: var(--ink);
+  stroke: var(--surface);
+  stroke-width: 2.5;
+  paint-order: stroke fill;
+  font-size: 14px;
+}
+
+.plot .stable-label {
+  fill: var(--good);
+}
+
+.plot .distance {
+  font-size: 14px;
+  font-weight: 500;
+  stroke: var(--surface);
+  stroke-width: 2.5;
+  paint-order: stroke fill;
+}
+
+/*
+ * The three small plots are schematics: fixed geometry, moving figures. Their
+ * labels are in the same units as the entire view's, which puts them at about
+ * the size of the body's name on the plot above.
+ */
+.plot.night,
+.plot.launch {
+  stroke-width: 1;
+  text-anchor: middle;
+}
+
+.plot .night-shadow {
+  fill: var(--ink);
+  fill-opacity: 0.2;
+  stroke: none;
+}
+
+.plot .night-orbit {
+  fill: none;
+  stroke: var(--plot-grid);
+}
+
+.plot .dashed {
+  stroke-dasharray: 2;
+}
+
+.plot .night-body {
+  stroke: none;
+}
+
+.plot .launch-body {
+  stroke: none;
+}
+
+.plot .transfer {
+  fill: none;
+  stroke: var(--good);
+}
+
+.plot .ship {
+  fill: var(--good);
+  stroke: none;
+}
+
+/* The spot is turned about the body's centre, not about itself. */
+.plot .spot-early {
+  fill: var(--ink);
+  transform: rotate(45deg);
+}
+
+.plot .spot-target {
+  fill: none;
+  stroke: var(--ink);
+}
+
+.plot .spot-late {
+  fill: var(--ink);
+  transform: rotate(-45deg);
+}
+
+.plot .orbit-higher {
+  fill: none;
+  stroke: #ff8000;
+}
+
+.plot .orbit-lower {
+  fill: none;
+  stroke: #0080ff;
+}
+
+/* Text -------------------------------------------------------------------- */
+
+.colophon {
+  max-width: 60rem;
+  margin: 2rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.colophon a {
+  color: var(--accent);
+}
+
+.prose {
+  max-width: 46rem;
+}
+
+.prose h2 {
+  font-size: 1.15rem;
+}
+
+.prose h3 {
+  font-size: 1rem;
+}
+
+.prose dt {
+  margin-top: 0.6rem;
+  font-weight: 600;
+}
+
+.prose dd {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.prose ol,
+.prose ul {
+  margin: 0.2rem 0;
+  padding-left: 1.3rem;
+}
+
+.prose li {
+  margin-bottom: 0.3rem;
+}
+
+.prose p {
+  margin-top: 0;
+}
+
+.swatch {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-right: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  vertical-align: baseline;
+}

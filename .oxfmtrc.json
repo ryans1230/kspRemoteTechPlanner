@@ -1,0 +1,12 @@
+{
+  "$schema": "https://oxc.rs/oxfmt/configuration.json",
+  "indentStyle": "space",
+  "indentWidth": 4,
+  "lineWidth": 100,
+  "semicolons": "always",
+  "singleQuote": false,
+  "trailingCommas": "es5",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf"
+}

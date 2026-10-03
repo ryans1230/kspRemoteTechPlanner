@@ -1,0 +1,24 @@
+{
+  "name": "ksp-remote-tech-planner",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Web-based satellite network planner for the KSP RemoteTech mod. The site is plain static files; this manifest exists so `node --test` can run the unit tests and nothing else.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "smoke": "node test/harnesses/smoke.js",
+    "drive": "node test/harnesses/drive.js",
+    "check-imports": "node test/harnesses/check-imports.js js",
+    "lint": "oxlint js/",
+    "format": "oxfmt js/",
+    "dev": "serve . -l tcp://127.0.0.1:8712"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "serve": "^14.2.6"
+  }
+}
+

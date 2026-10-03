@@ -1,0 +1,12 @@
+{
+  "$schema": "https://oxc.rs/oxlint/configuration.json",
+  "rules": {
+    "unicorn/no-useless-spread": "allow"
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.js"],
+      "env": { "node": true }
+    }
+  ]
+}

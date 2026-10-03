@@ -1,0 +1,510 @@
+/**
+ * RealAntennas raw parameters extracted from ModuleManager patches.
+ * These are the direct ModuleRealAntenna field values.
+ * Range and EC/s are computed at runtime based on link budget.
+ *
+ * @typedef {object} RealAntennasAntennaRaw
+ * @property {string} name           unique key, display name
+ * @property {"omni"|"dish"} type    omni if referenceGain>0, dish if antennaDiameter>0
+ * @property {number} antennaDiameter meters (for dishes)
+ * @property {number} referenceGain  dBi (for omnis)
+ * @property {number} referenceFrequency MHz (for omnis)
+ * @property {number} txPower        dBm (transmit power)
+ * @property {number} techLevel      0-9
+ * @property {string} rfBand         "L"|"S"|"X"|"K"
+ * @property {number} amwTemp        Antenna Microwave Temperature (K)
+ * @property {string} encoder        "None"|"Reed-Solomon"|"Convolutional"|"Turbo"
+ * @property {boolean} canTarget     true for dishes
+ * @property {"RealAntennas"} source
+ */
+
+/** @type {readonly RealAntennasAntennaRaw[]} */
+export const REAL_ANTENNAS_RAW = Object.freeze([
+  // Stock parts converted by RealAntennas
+  {
+    name: "Communotron 16-S (RealAntennas)",
+    type: "omni",
+    referenceGain: 2.0,
+    referenceFrequency: 1620,
+    txPower: 30,
+    techLevel: 0,
+    rfBand: "L",
+    amwTemp: 290,
+    encoder: "None",
+    canTarget: false,
+    source: "RealAntennas",
+  },
+  {
+    name: "Communotron 16 (RealAntennas)",
+    type: "omni",
+    referenceGain: 3.0,
+    referenceFrequency: 1620,
+    txPower: 30,
+    techLevel: 0,
+    rfBand: "L",
+    amwTemp: 290,
+    encoder: "None",
+    canTarget: false,
+    source: "RealAntennas",
+  },
+  {
+    name: "Communotron 88-88 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 4.8,
+    txPower: 60,
+    techLevel: 7,
+    rfBand: "X",
+    amwTemp: 40,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "Communotron DTS-M1 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 1.0,
+    txPower: 40,
+    techLevel: 3,
+    rfBand: "S",
+    amwTemp: 125,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "HG-5 High Gain Antenna (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 0.5,
+    txPower: 40,
+    techLevel: 0,
+    rfBand: "L",
+    amwTemp: 290,
+    encoder: "None",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "RA-2 Relay Antenna (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 1.0,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 80,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "RA-15 Relay Antenna (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 2.0,
+    txPower: 50,
+    techLevel: 7,
+    rfBand: "X",
+    amwTemp: 40,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "RA-100 Relay Antenna (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 4.0,
+    txPower: 60,
+    techLevel: 9,
+    rfBand: "K",
+    amwTemp: 20,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+
+  // ReStock parts
+  {
+    name: "HG-20 / restock-relay-radial-2 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 1.0,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 80,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "Communotron DTS-J1 / restock-antenna-stack-2 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 0.8,
+    txPower: 40,
+    techLevel: 3,
+    rfBand: "S",
+    amwTemp: 125,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "Communotron HG-61 / restock-antenna-stack-3 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 1.22,
+    txPower: 50,
+    techLevel: 7,
+    rfBand: "X",
+    amwTemp: 40,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+
+  // AIES parts
+  {
+    name: "AIES CommTech CL-1 / Dishcl1 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 0.625,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 80,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech Omega-2G / Dishomega2g (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 1.4,
+    txPower: 50,
+    techLevel: 7,
+    rfBand: "X",
+    amwTemp: 40,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES Comlar 1 / dishcomlar1 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 2.867,
+    txPower: 60,
+    techLevel: 9,
+    rfBand: "K",
+    amwTemp: 20,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech CM-60 / Dishmccomu (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 1.57,
+    txPower: 50,
+    techLevel: 7,
+    rfBand: "X",
+    amwTemp: 40,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech-1 / Antennacomtec1 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 0.72,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 80,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech-2 / Antennacomtec2 (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 1.25,
+    txPower: 50,
+    techLevel: 7,
+    rfBand: "X",
+    amwTemp: 40,
+    encoder: "Turbo 1/2",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech PCF-5 / Dishpcf (RealAntennas)",
+    type: "dish",
+    antennaDiameter: 0.89,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 80,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: true,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech DF-RD / AntennaDF2 (RealAntennas)",
+    type: "omni",
+    referenceGain: 2.0,
+    referenceFrequency: 2250,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 290,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: false,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech ESC-EXP / Antennaesc (RealAntennas)",
+    type: "omni",
+    referenceGain: 3.0,
+    referenceFrequency: 2250,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 290,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: false,
+    source: "RealAntennas",
+  },
+  {
+    name: "AIES CommTech EXP-VR-2T / Antennaexpatvr2 (RealAntennas)",
+    type: "omni",
+    referenceGain: 3.0,
+    referenceFrequency: 2250,
+    txPower: 40,
+    techLevel: 5,
+    rfBand: "S",
+    amwTemp: 290,
+    encoder: "Reed-Solomon 255/223",
+    canTarget: false,
+    source: "RealAntennas",
+  },
+]);
+
+/**
+ * RealAntennas Tech Levels (from RealAntennasCommNetParams.cfg)
+ * PowerEfficiency and ReflectorEfficiency are divided by 1000 for stock-alike performance
+ */
+export const RA_TECH_LEVELS = Object.freeze({
+  0: {
+    // WW2-era
+    level: 0,
+    name: "commsTL0",
+    desc: "WW2-era",
+    powerEfficiency: 0.0555 / 1000,
+    reflectorEfficiency: 0.5,
+    minDataRate: 4,
+    maxDataRate: 4,
+    maxPower: 20,
+    massPerWatt: 1.6,
+    baseMass: 34,
+    basePower: 42,
+    baseCost: 10,
+    costPerWatt: 5,
+    receiverNoiseTemp: 27000,
+  },
+  1: {
+    // Lunar Range Comms, 1956
+    level: 1,
+    name: "commsTL1",
+    desc: "Lunar Range Comms, 1956",
+    powerEfficiency: 0.0769 / 1000,
+    reflectorEfficiency: 0.52,
+    minDataRate: 4,
+    maxDataRate: 4,
+    maxPower: 30,
+    massPerWatt: 1.34,
+    baseMass: 31,
+    basePower: 38,
+    baseCost: 15,
+    costPerWatt: 4,
+    receiverNoiseTemp: 11500,
+  },
+  2: {
+    // Digital Comms, 1959-1960
+    level: 2,
+    name: "commsTL2",
+    desc: "Digital Comms, 1959-1960",
+    powerEfficiency: 0.1 / 1000,
+    reflectorEfficiency: 0.54,
+    minDataRate: 1,
+    maxDataRate: 64,
+    maxPower: 37,
+    massPerWatt: 1.16,
+    baseMass: 28,
+    basePower: 34,
+    baseCost: 25,
+    costPerWatt: 3.5,
+    receiverNoiseTemp: 7000,
+  },
+  3: {
+    // Interplanetary Comms, 1961-1963
+    level: 3,
+    name: "commsTL3",
+    desc: "Interplanetary Comms, 1961-1963",
+    powerEfficiency: 0.1304 / 1000,
+    reflectorEfficiency: 0.56,
+    minDataRate: 8,
+    maxDataRate: 64,
+    maxPower: 37,
+    massPerWatt: 1,
+    baseMass: 25,
+    basePower: 29,
+    baseCost: 35,
+    costPerWatt: 3,
+    receiverNoiseTemp: 5800,
+  },
+  4: {
+    // Improved Comms, 1964-1966
+    level: 4,
+    name: "commsTL4",
+    desc: "Improved Comms, 1964-1966",
+    powerEfficiency: 0.1667 / 1000,
+    reflectorEfficiency: 0.58,
+    minDataRate: 8,
+    maxDataRate: 4096,
+    maxPower: 40,
+    massPerWatt: 0.86,
+    baseMass: 22,
+    basePower: 25.7,
+    baseCost: 45,
+    costPerWatt: 2.5,
+    receiverNoiseTemp: 4500,
+  },
+  5: {
+    // Advanced Comms, 1967-1971
+    level: 5,
+    name: "commsTL5",
+    desc: "Advanced Comms, 1967-1971",
+    powerEfficiency: 0.2222 / 1000,
+    reflectorEfficiency: 0.6,
+    minDataRate: 16,
+    maxDataRate: 16384,
+    maxPower: 43,
+    massPerWatt: 0.75,
+    baseMass: 19,
+    basePower: 23,
+    baseCost: 60,
+    costPerWatt: 2,
+    receiverNoiseTemp: 3000,
+  },
+  6: {
+    // Deep Space Comms, 1971-1974
+    level: 6,
+    name: "commsTL6",
+    desc: "Deep Space Comms, 1971-1974",
+    powerEfficiency: 0.25 / 1000,
+    reflectorEfficiency: 0.62,
+    minDataRate: 16,
+    maxDataRate: 131072,
+    maxPower: 43,
+    massPerWatt: 0.6444,
+    baseMass: 16,
+    basePower: 21.4,
+    baseCost: 75,
+    costPerWatt: 1.7,
+    receiverNoiseTemp: 1540,
+  },
+  7: {
+    // High Data Rate Comms, 1976-1980
+    level: 7,
+    name: "commsTL7",
+    desc: "High Data Rate Comms, 1976-1980",
+    powerEfficiency: 0.3 / 1000,
+    reflectorEfficiency: 0.64,
+    minDataRate: 16,
+    maxDataRate: 262144,
+    maxPower: 46,
+    massPerWatt: 0.6,
+    baseMass: 13,
+    basePower: 18.3,
+    baseCost: 90,
+    costPerWatt: 1.2,
+    receiverNoiseTemp: 1100,
+  },
+  8: {
+    // Massive Scale Comms, 1986-1997
+    level: 8,
+    name: "commsTL8",
+    desc: "Massive Scale Comms, 1986-1997",
+    powerEfficiency: 0.3724 / 1000,
+    reflectorEfficiency: 0.66,
+    minDataRate: 16,
+    maxDataRate: 262144,
+    maxPower: 46,
+    massPerWatt: 0.54,
+    baseMass: 10,
+    basePower: 14.3,
+    baseCost: 110,
+    costPerWatt: 0.5,
+    receiverNoiseTemp: 500,
+  },
+  9: {
+    // Efficient Comms, 1998-2008
+    level: 9,
+    name: "commsTL9",
+    desc: "Efficient Comms, 1998-2008",
+    powerEfficiency: 0.4397 / 1000,
+    reflectorEfficiency: 0.68,
+    minDataRate: 16,
+    maxDataRate: 134217728,
+    maxPower: 50,
+    massPerWatt: 0.1418,
+    baseMass: 7.5,
+    basePower: 11.7,
+    baseCost: 125,
+    costPerWatt: 0.4,
+    receiverNoiseTemp: 200,
+  },
+});
+
+/**
+ * Frequency Bands (Hz)
+ */
+export const RA_BANDS = Object.freeze({
+  L: { name: "L", techLevel: 0, frequency: 1.62e9, channelWidth: 31.5e3 },
+  S: { name: "S", techLevel: 3, frequency: 2.25e9, channelWidth: 0.33e6 },
+  X: { name: "X", techLevel: 7, frequency: 8.45e9, channelWidth: 1.36e6 },
+  K: { name: "K", techLevel: 9, frequency: 26.25e9, channelWidth: 20e6 },
+});
+
+/**
+ * Encoder Info
+ */
+export const RA_ENCODERS = Object.freeze({
+  None: { name: "None", techLevel: 0, codingRate: 1, requiredEbN0: 10 },
+  "Reed-Solomon 255/223": {
+    name: "Reed-Solomon 255/223",
+    techLevel: 3,
+    codingRate: 0.8745,
+    requiredEbN0: 6.1,
+  },
+  "Convolutional 7, 1/2": {
+    name: "Convolutional 7, 1/2",
+    techLevel: 6,
+    codingRate: 0.5,
+    requiredEbN0: 4.5,
+  },
+  "Turbo 1/2": { name: "Turbo 1/2", techLevel: 8, codingRate: 0.5, requiredEbN0: 1 },
+});
+
+/**
+ * Default RealAntennas settings
+ */
+export const RA_DEFAULTS = Object.freeze({
+  raEnabled: true,
+  // Ground station upgrades
+  dsnLevel: 3, // 0=Level 1, 1=Level 2, 2=Level 3
+  // Difficulty modifiers
+  rangeMultiplier: 1.0,
+  consumptionMultiplier: 1.0,
+  // Tracking station settings (from Default_Settings.cfg)
+  missionControlRangeMultiplier: 1.0,
+  omniRangeClampFactor: 100,
+  dishRangeClampFactor: 1000,
+  multipleAntennaMultiplier: 0,
+  rangeModelType: "Standard", // "Standard" or "Root"
+});
